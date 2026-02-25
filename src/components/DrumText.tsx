@@ -17,6 +17,7 @@ type Props = {
 };
 
 const ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.&";
+const DURATION_VARIANCE = [0, -0.04, 0.03, -0.02, 0.02, -0.01];
 
 export default function DrumText({
   text,
@@ -50,14 +51,15 @@ const reels = useMemo(() => {
       reelEls.forEach((el, i) => {
         const items = Number(el.dataset.items || "0");
         const startY = -1 * (items - 1) * cellPx; 
-const endY = 0;                           
+const endY = 0;
+const duration = Math.max(0.35, baseDuration + DURATION_VARIANCE[i % DURATION_VARIANCE.length]);
 
 gsap.killTweensOf(el);
 gsap.set(el, { y: startY });
 
 gsap.to(el, {
   y: endY,
-  duration: baseDuration + i * 0.04,
+  duration,
   ease: "power2.out",
 });
 
@@ -73,7 +75,7 @@ gsap.to(el, {
       style={{
         display: "inline-flex",
         alignItems: "baseline",
-        gap: "6px", 
+        gap: "3px",
       }}
     >
       {reels.map((reel, i) => {
