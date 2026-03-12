@@ -10,14 +10,14 @@ type HeroLink = {
 
 const HERO_CLASSES = {
   section: "pb-12 pt-2 sm:pb-16 sm:pt-4",
-  title: "text-2xl font-semibold tracking-tight text-slate-800 sm:text-4xl",
+  title: "text-[clamp(1.75rem,7vw,2.25rem)] font-semibold tracking-tight text-slate-800 sm:text-4xl",
   titleInner: "inline-block",
-  subtitle: "mt-5 text-lg text-slate-500",
-  links: "mt-7 flex flex-wrap items-center gap-7 text-base text-slate-600",
+  subtitle: "mt-5 text-base text-slate-500 sm:text-lg",
+  links: "mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-600 sm:gap-7 sm:text-base",
   link: "group inline-flex items-center gap-2 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
   icon: "text-slate-500 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-emerald-300",
   linkText:
-    "inline-block w-[64px] text-left font-medium transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-emerald-300 group-hover:[-webkit-text-stroke:0.2px_#334155] group-hover:[text-shadow:0_0_0.8px_rgba(51,65,85,0.5)]",
+    "inline-block min-w-[64px] text-left font-medium transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-emerald-300 group-hover:[-webkit-text-stroke:0.2px_#334155] group-hover:[text-shadow:0_0_0.8px_rgba(51,65,85,0.5)]",
 } as const;
 
 const heroLinks: HeroLink[] = [
