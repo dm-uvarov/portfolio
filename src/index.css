@@ -40,3 +40,47 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.drum-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.drum-text__window {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  width: var(--drum-window-px);
+  height: var(--drum-cell-px);
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--drum-window-radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.drum-text__reel {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  will-change: transform;
+}
+
+.drum-text__cell {
+  display: block;
+  width: 100%;
+  height: var(--drum-cell-px);
+  color: #0a0a0a;
+  text-align: center;
+  line-height: var(--drum-cell-px);
+  font-variant-numeric: tabular-nums;
+}
+
+.drum-text__space {
+  display: inline-block;
+}
+
+.drum-text__sr-only {
+  position: absolute;
+  left: -9999px;
+}

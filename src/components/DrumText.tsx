@@ -1,23 +1,34 @@
 import { useMemo, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import {
+  getDrumTextVars,
+  getSpaceWidthStyle,
+  SCREEN_READER_ONLY_STYLE,
+} from "./drumTextStyles";
 
 gsap.registerPlugin(useGSAP);
 
 type Props = {
   text: string;
-  spins?: number;        // 
-  cellPx?: number;       // 
-  baseDuration?: number; // базовая длительность прокрутки
+  spins?: number;
+  cellPx?: number;
+  baseDuration?: number;
   className?: string;
-
-  // 
-  windowPx?: number;     // 
-  windowRadius?: number; // 
+  windowPx?: number;
+  windowRadius?: number;
 };
 
 const ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.&";
 const DURATION_VARIANCE = [0, -0.04, 0.03, -0.02, 0.02, -0.01];
+const DRUM_TEXT_CLASSES = {
+  root: "drum-text",
+  reelWindow: "drum-text__window",
+  reelTrack: "drum-text__reel",
+  reelCell: "drum-text__cell",
+  space: "drum-text__space",
+  srOnly: "drum-text__sr-only",
+} as const;
 
 export default function DrumText({
   text,
@@ -30,17 +41,18 @@ export default function DrumText({
 }: Props) {
   const scope = useRef<HTMLSpanElement>(null);
 
-const reels = useMemo(() => {
-  return Array.from(text).map((ch) => {
-    const target = ch === " " ? " " : ch;
+  const reels = useMemo(() => {
+    return Array.from(text).map((ch) => {
+      const target = ch === " " ? " " : ch;
 
-    const after: string[] = [];
-    for (let i = 0; i < Math.max(1, spins); i++) after.push(...Array.from(ALPHABET));
+      const after: string[] = [];
+      for (let i = 0; i < Math.max(1, spins); i += 1) {
+        after.push(...Array.from(ALPHABET));
+      }
 
-    //
-    return [target, ...after];
-  });
-}, [text, spins]);
+      return [target, ...after];
+    });
+  }, [text, spins]);
 
   useGSAP(
     () => {
@@ -50,19 +62,16 @@ const reels = useMemo(() => {
 
       reelEls.forEach((el, i) => {
         const items = Number(el.dataset.items || "0");
-        const startY = -1 * (items - 1) * cellPx; 
-const endY = 0;
-const duration = Math.max(0.35, baseDuration + DURATION_VARIANCE[i % DURATION_VARIANCE.length]);
+        const startY = -1 * (items - 1) * cellPx;
+        const duration = Math.max(0.35, baseDuration + DURATION_VARIANCE[i % DURATION_VARIANCE.length]);
 
-gsap.killTweensOf(el);
-gsap.set(el, { y: startY });
-
-gsap.to(el, {
-  y: endY,
-  duration,
-  ease: "power2.out",
-});
-
+        gsap.killTweensOf(el);
+        gsap.set(el, { y: startY });
+        gsap.to(el, {
+          y: 0,
+          duration,
+          ease: "power2.out",
+        });
       });
     },
     { scope, dependencies: [text, spins, cellPx, baseDuration], revertOnUpdate: true }
@@ -71,61 +80,32 @@ gsap.to(el, {
   return (
     <span
       ref={scope}
-      className={className}
-      style={{
-        display: "inline-flex",
-        alignItems: "baseline",
-        gap: "3px",
-      }}
+      className={[DRUM_TEXT_CLASSES.root, className].filter(Boolean).join(" ")}
+      style={getDrumTextVars(cellPx, windowPx, windowRadius)}
     >
       {reels.map((reel, i) => {
         const isSpace = text[i] === " ";
 
-        
         if (isSpace) {
-          return <span key={`space-${i}`} style={{ width: 14, display: "inline-block" }} aria-hidden="true" />;
+          return (
+            <span
+              key={`space-${i}`}
+              className={DRUM_TEXT_CLASSES.space}
+              style={getSpaceWidthStyle()}
+              aria-hidden="true"
+            />
+          );
         }
 
         return (
-          <span
-            key={i}
-            aria-hidden="true"
-            style={{
-              position: "relative",
-              display: "inline-block",
-              overflow: "hidden",
-              height: `${cellPx}px`,
-              width: `${windowPx}px`,      
-              background: "white",       
-              borderRadius: `${windowRadius}px`,
-              border: "1px solid rgba(0,0,0,0.10)",
-              boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-            }}
-          >
+          <span key={i} aria-hidden="true" className={DRUM_TEXT_CLASSES.reelWindow}>
             <span
               data-reel
               data-items={reel.length}
-              style={{
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "100%",
-                willChange: "transform",
-              }}
+              className={DRUM_TEXT_CLASSES.reelTrack}
             >
               {reel.map((c, idx) => (
-                <span
-                  key={idx}
-                  style={{
-                    display: "block",
-                    height: `${cellPx}px`,
-                    lineHeight: `${cellPx}px`,
-                    width: "100%",
-                    textAlign: "center",
-                    fontVariantNumeric: "tabular-nums",
-                    color: "#0a0a0a", 
-                  }}
-                >
+                <span key={idx} className={DRUM_TEXT_CLASSES.reelCell}>
                   {c === " " ? "\u00A0" : c}
                 </span>
               ))}
@@ -134,8 +114,9 @@ gsap.to(el, {
         );
       })}
 
-      {/* screen readers */}
-      <span style={{ position: "absolute", left: "-9999px" }}>{text}</span>
+      <span className={DRUM_TEXT_CLASSES.srOnly} style={SCREEN_READER_ONLY_STYLE}>
+        {text}
+      </span>
     </span>
   );
 }
