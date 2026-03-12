@@ -1,9 +1,32 @@
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 import type { RefObject } from "react";
 import Hero from "./components/Hero";
-import { Projects } from "./components/Projects";
 import { APP_CLASSES, BOLT_PATHS } from "./constants/appStyles";
 import { useOrbAnimation } from "./hooks/useOrbAnimation";
+
+const Projects = lazy(async () => {
+  const module = await import("./components/Projects");
+  return { default: module.Projects };
+});
+
+const PROJECTS_FALLBACK_CLASSES = {
+  section: "pb-20",
+  heading: "mb-6 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500",
+  grid: "grid grid-cols-1 gap-10 md:grid-cols-2",
+  card: "h-[230px] rounded-md border border-slate-200 bg-white/40 p-6",
+} as const;
+
+function ProjectsFallback() {
+  return (
+    <section className={PROJECTS_FALLBACK_CLASSES.section} aria-hidden>
+      <h2 className={PROJECTS_FALLBACK_CLASSES.heading}>Projects</h2>
+      <div className={PROJECTS_FALLBACK_CLASSES.grid}>
+        <div className={PROJECTS_FALLBACK_CLASSES.card} />
+        <div className={PROJECTS_FALLBACK_CLASSES.card} />
+      </div>
+    </section>
+  );
+}
 
 export default function App() {
   const scope = useRef<HTMLDivElement>(null);
@@ -52,7 +75,9 @@ export default function App() {
       </div>
       <main className={APP_CLASSES.main}>
         <Hero />
-        <Projects />
+        <Suspense fallback={<ProjectsFallback />}>
+          <Projects />
+        </Suspense>
       </main>
     </div>
   );

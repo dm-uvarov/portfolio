@@ -2,9 +2,9 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ExternalLink } from "lucide-react";
 import { projects } from "./config/projects";
 import type { Project } from "./config/projects";
+import { ExternalLinkIcon } from "./Icons";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,7 +66,7 @@ function ProjectBody({ project }: ProjectCardProps) {
       <div className={PROJECT_CLASSES.header}>
         <h3 className={PROJECT_CLASSES.title}>{project.title}</h3>
         {project.href ? (
-          <ExternalLink size={16} className={PROJECT_CLASSES.icon} />
+          <ExternalLinkIcon size={16} className={PROJECT_CLASSES.icon} />
         ) : (
           <span className={PROJECT_CLASSES.placeholderLabel}>no public repo</span>
         )}

@@ -1,10 +1,10 @@
 import DrumText from "./DrumText";
-import { Github, Mail } from "lucide-react";
+import { GithubIcon, MailIcon } from "./Icons";
 
 type HeroLink = {
   label: string;
   href: string;
-  icon: typeof Github;
+  icon: typeof GithubIcon;
   external?: boolean;
 };
 
@@ -24,13 +24,13 @@ const heroLinks: HeroLink[] = [
   {
     label: "GitHub",
     href: "https://github.com/dm-uvarov",
-    icon: Github,
+    icon: GithubIcon,
     external: true,
   },
   {
     label: "Contact",
     href: "mailto:contact@example.com",
-    icon: Mail,
+    icon: MailIcon,
   },
 ];
 
