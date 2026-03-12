@@ -41,10 +41,20 @@ a {
   text-decoration: none;
 }
 
+.drum-text-shell {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
 .drum-text {
+  position: absolute;
+  left: 0;
+  top: 0;
   display: inline-flex;
   align-items: baseline;
   gap: 3px;
+  transform-origin: left top;
 }
 
 .drum-text__window {
