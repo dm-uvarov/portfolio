@@ -6,14 +6,14 @@ gsap.registerPlugin(useGSAP);
 
 type Props = {
   text: string;
-  spins?: number;        // сколько “лишних” прокруток
-  cellPx?: number;       // высота ячейки (px)
+  spins?: number;        // 
+  cellPx?: number;       // 
   baseDuration?: number; // базовая длительность прокрутки
   className?: string;
 
-  // Внешний вид “окна” под букву
-  windowPx?: number;     // ширина окна в px (фикс)
-  windowRadius?: number; // радиус скругления
+  // 
+  windowPx?: number;     // 
+  windowRadius?: number; // 
 };
 
 const ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.&";
@@ -134,7 +134,7 @@ gsap.to(el, {
         );
       })}
 
-      {/* для скринридеров */}
+      {/* screen readers */}
       <span style={{ position: "absolute", left: "-9999px" }}>{text}</span>
     </span>
   );

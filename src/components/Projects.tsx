@@ -16,7 +16,7 @@ const projects = [
   {
     title: "Textera",
     description: "Team TypeScript text adventure platform.",
-    href: "https://github.com/dm-uvarov/cs461-text-adventure/tree/main/code",
+    href: "https://github.com/cs461-text-adventure/code",
     tags: ["Capstone", "TypeScript", "Team Work"],
   },
   {
@@ -132,38 +132,69 @@ export function Projects() {
       </h2>
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         {projects.map((project) => (
-          <a
-            key={project.title}
-            data-card
-            href={project.href}
-            target="_blank"
-            rel="noreferrer"
-            className="group relative flex h-[230px] flex-col overflow-visible rounded-md border border-slate-200 bg-white/70 p-6"
-          >
-            <span
-              data-stripe
-              aria-hidden
-              className="pointer-events-none absolute bottom-5 -left-3 top-5 w-[4px] scale-y-75 rounded-full bg-emerald-200/90 opacity-0"
-            />
-            <div className="flex items-start justify-between gap-3">
-              <h3 className="text-[1.2rem] font-medium text-slate-900">{project.title}</h3>
-              <ExternalLink
-                size={16}
-                className="mt-1 text-slate-500"
+          project.href ? (
+            <a
+              key={project.title}
+              data-card
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative flex h-[230px] flex-col overflow-visible rounded-md border border-slate-200 bg-white/70 p-6"
+            >
+              <span
+                data-stripe
+                aria-hidden
+                className="pointer-events-none absolute bottom-5 -left-3 top-5 w-[4px] scale-y-75 rounded-full bg-emerald-200/90 opacity-0"
               />
-            </div>
-            <p className="mt-4 text-[0.9rem] leading-relaxed text-slate-600">{project.description}</p>
-            <div className="mt-auto flex flex-wrap gap-2 pt-5">
-              {project.tags.map((tag) => (
-                <span
-                  key={`${project.title}-${tag}`}
-                  className="rounded-full bg-slate-100 px-3 py-1 text-[0.7rem] text-slate-500"
-                >
-                  {tag}
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-[1.2rem] font-medium text-slate-900">{project.title}</h3>
+                <ExternalLink
+                  size={16}
+                  className="mt-1 text-slate-500"
+                />
+              </div>
+              <p className="mt-4 text-[0.9rem] leading-relaxed text-slate-600">{project.description}</p>
+              <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                {project.tags.map((tag) => (
+                  <span
+                    key={`${project.title}-${tag}`}
+                    className="rounded-full bg-slate-100 px-3 py-1 text-[0.7rem] text-slate-500"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ) : (
+            <div
+              key={project.title}
+              data-card
+              className="group relative flex h-[230px] flex-col overflow-visible rounded-md border border-slate-200 bg-white/70 p-6"
+            >
+              <span
+                data-stripe
+                aria-hidden
+                className="pointer-events-none absolute bottom-5 -left-3 top-5 w-[4px] scale-y-75 rounded-full bg-emerald-200/90 opacity-0"
+              />
+              <div className="flex items-start justify-between gap-3">
+                <h3 className="text-[1.2rem] font-medium text-slate-900">{project.title}</h3>
+                <span className="mt-0.5 text-[0.72rem] uppercase tracking-[0.16em] text-slate-400">
+                  no public repo
                 </span>
-              ))}
+              </div>
+              <p className="mt-4 text-[0.9rem] leading-relaxed text-slate-600">{project.description}</p>
+              <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                {project.tags.map((tag) => (
+                  <span
+                    key={`${project.title}-${tag}`}
+                    className="rounded-full bg-slate-100 px-3 py-1 text-[0.7rem] text-slate-500"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </a>
+          )
         ))}
       </div>
     </section>
