@@ -15,6 +15,7 @@ const HERO_CLASSES = {
   titleSingleLine: "block max-[390px]:hidden",
   titleSmallScreen: "hidden max-[390px]:flex max-[390px]:flex-col max-[390px]:gap-2",
   subtitle: "mt-5 text-base text-slate-500 sm:text-lg",
+  intro: "mt-3 max-w-2xl text-sm italic leading-6 text-slate-600 sm:text-base",
   links: "mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-slate-600 sm:gap-7 sm:text-base",
   link: "group inline-flex items-center gap-2 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
   icon: "text-slate-500 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-emerald-300",
@@ -50,7 +51,11 @@ export default function Hero() {
           </span>
         </span>
       </h1>
-      <p className={HERO_CLASSES.subtitle}>Software • Development</p>
+      <p className={HERO_CLASSES.subtitle}>React-focused Software Developer</p>
+      <p className={HERO_CLASSES.intro}>
+        Building responsive web interfaces, interactive UI, and project-based software
+        applications.
+      </p>
       <div className={HERO_CLASSES.links}>
         {heroLinks.map(({ label, href, icon: Icon, external }) => (
           <a
